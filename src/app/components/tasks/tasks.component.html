@@ -1,0 +1,33 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="mb-3">
+        <input type="text" formControlName="Name" name="Name" class="form-control" id="exampleFormControlInput1" placeholder="Nombre de tarea">
+      </div>
+
+    <div class="mb-3">
+        <select id="Priority" formControlName="Priority" name="Priority" class="form-select" aria-label="Default">
+            <option value="">Selecciona</option>
+            <option value="Alta">Alta</option>
+            <option value="Media">Media</option>
+            <option value="Baja">Baja</option>
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <input type="text" formControlName="Description" name="Description" class="form-control" id="exampleFormControlInput1" placeholder="Descripcion de tarea">
+      </div>
+
+    <button type="submit" class="btn btn-outline-primary">Guardar</button>
+</form>
+
+<div class="row">
+    <div class="col-sm-6" *ngFor="let task of tasks">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ task.Name }}</h5>
+          <p class="card-text">{{ task.Description }}</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+  </div>
