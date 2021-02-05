@@ -1,33 +1,57 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Nueva tarea
+</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nueva tarea</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <div class="mb-3">
-        <input type="text" formControlName="Name" name="Name" class="form-control" id="exampleFormControlInput1" placeholder="Nombre de tarea">
-      </div>
+                    <div class="mb-3">
+                        <input type="text" formControlName="Name" name="Name" class="form-control"
+                            id="exampleFormControlInput1" placeholder="Nombre de tarea">
+                    </div>
 
-    <div class="mb-3">
-        <select id="Priority" formControlName="Priority" name="Priority" class="form-select" aria-label="Default">
-            <option value="">Selecciona</option>
-            <option value="Alta">Alta</option>
-            <option value="Media">Media</option>
-            <option value="Baja">Baja</option>
-        </select>
+                    <div class="mb-3">
+                        <select id="Priority" formControlName="Priority" name="Priority" class="form-select"
+                            aria-label="Default">
+                            <option value="">Selecciona</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Media</option>
+                            <option value="Baja">Baja</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" formControlName="Description" name="Description" class="form-control"
+                            id="exampleFormControlInput1" placeholder="Descripcion de tarea">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-outline-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    
-    <div class="mb-3">
-        <input type="text" formControlName="Description" name="Description" class="form-control" id="exampleFormControlInput1" placeholder="Descripcion de tarea">
-      </div>
-
-    <button type="submit" class="btn btn-outline-primary">Guardar</button>
-</form>
+</div>
 
 <div class="row">
     <div class="col-sm-6" *ngFor="let task of tasks">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ task.Name }}</h5>
-          <p class="card-text">{{ task.Description }}</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ task.Name }}</h5>
+                <p class="card-text">{{ task.Description }}</p>
+                <a href="#" class="btn btn-primary">Editar</a>
+                <a href="#" class="btn btn-primary">Eliminar</a>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
