@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class TasksService {
-  private url = 'http://localhost/Tasks/api/';
+  private url = 'http://192.168.1.59/Tasks/api/';
   private headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
   
   constructor(private httpClient: HttpClient) { }
@@ -19,4 +19,7 @@ export class TasksService {
     return this.httpClient.post(urlPath, JSON.stringify(data), { headers: this.headers });
   }
 
+  getRequetsDel(id, path){
+    return this.httpClient.delete(`${this.url}${path}/${id}`, { headers: this.headers });
+  }
 }

@@ -22,9 +22,7 @@
                         <select id="Priority" formControlName="Priority" name="Priority" class="form-select"
                             aria-label="Default">
                             <option value="">Selecciona</option>
-                            <option value="Alta">Alta</option>
-                            <option value="Media">Media</option>
-                            <option value="Baja">Baja</option>
+                            <option value="{{ item.id }}" *ngFor="let item of prioridad">{{ item.name }}</option>
                         </select>
                     </div>
 
@@ -45,12 +43,15 @@
 
 <div class="row">
     <div class="col-sm-6" *ngFor="let task of tasks">
-        <div class="card">
+        <div [ngClass]="{'card': task.Status === 1, 'alert alert-warning':task.Status === 0 }">
             <div class="card-body">
                 <h5 class="card-title">{{ task.Name }}</h5>
                 <p class="card-text">{{ task.Description }}</p>
                 <a href="#" class="btn btn-primary">Editar</a>
-                <a href="#" class="btn btn-primary">Eliminar</a>
+                <a href="#" (click)="onDelete(task.IdTask)" class="btn btn-primary">
+                    <span *ngIf="task.Status === 1; else elseBlock">Desactivar</span>
+                    <ng-template #elseBlock>Activar</ng-template>
+                </a>
             </div>
         </div>
     </div>
