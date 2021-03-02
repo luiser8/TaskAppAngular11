@@ -1,20 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
-import { TasksService } from '../../services/tasks.service';
+import { Task } from 'src/app/models/Task';
+import { TasksStoreService } from '../../services/tasks-store.service';
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
-  styleUrls: ['./tasks.component.css']
+  styleUrls: ['./tasks.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TasksComponent implements OnInit {
-  tasks;
+  constructor(public taskStoreService:TasksStoreService) {}
 
-  prioridad = [
-        { 'id':1, 'name': 'Alta' },
-        { 'id':2, 'name': 'Media' },
-        { 'id':3, 'name': 'Baja' }
-  ]
+  tasks:any = [];
 
   form = new FormGroup({
     Name: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -22,44 +20,36 @@ export class TasksComponent implements OnInit {
     Description: new FormControl('', Validators.required)
   });
 
-  constructor(private service:TasksService) { }
+  prioridad = [
+    { 'id':1, 'name': 'Alta' },
+    { 'id':2, 'name': 'Media' },
+    { 'id':3, 'name': 'Baja' }
+]
+  tasksTrackFn = (i, task) => task.IdTask;
 
-  ngOnInit(): void {
-    this.service.getResponse('Tasks')
-      .subscribe(response => {
-        this.tasks = response;
-      })
+  onTaskAll(){
+    this.tasks = this.taskStoreService.fetchAll();
   }
 
-  onDelete(id){
-    this.service.getRequetsDel(id, 'Tasks')
-    .subscribe((response: { IdTask }) => {
-        //this.tasks.splice(0, 0, response.IdTask);
-        Object.assign(this.tasks, this.tasks.map(el => el.id === response.IdTask? response : el))
-    })
+  ngOnInit(): void {
+    this.onTaskAll();
+  }
+
+  onAddTask(taskData: Task){
+    taskData.IdUser = 1,
+    taskData.Status = 1,
+    this.taskStoreService.addTask(taskData);
+  }
+
+  onDelete(id:number){
+    this.taskStoreService.removeTask(id);
   }
 
   onSubmit(): void {
-    let data = { 
-      IdUser: 1, 
-      Name: this.form.value.Name, 
-      Priority: this.form.value.Priority,
-      Description: this.form.value.Description,
-      Status: 1
-    }
-    this.createTask(data);
-
+    this.onAddTask(this.form.value);
     if(this.form.status === 'VALID'){
         console.log(this.form.value);
-        this.createTask(this.form.value);
+        this.onAddTask(this.form.value);
       }
-  }
-
-  createTask(form){
-    this.service.getRequest(form, 'tasks')
-              .subscribe((response: { IdTask }) => {
-                form['IdTask'] = response.IdTask;
-                this.tasks.splice(0, 0, form);
-              })
   }
 }
